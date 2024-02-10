@@ -34,23 +34,60 @@
 			<span class="h1 text-white font-weight-bold">Welcome to neurahub</span>
 		</div>
 		<div class="d-flex flex-column mx-auto align-items-center justify-content-center">
-			<h1 class="font-weight-bold pt-4 pb-2">What can you do with neurahub</h1>
-			<p>Optimize learning! neurahub facilitates communication between teacher and student</p>
+			<h1 class="font-weight-bold pt-4 pb-2 text-center">What can you do with neurahub</h1>
+			<p class="text-center">Optimize learning! neurahub facilitates communication between teacher and student</p>
 		</div>
-		<div class="d-flex mx-auto align-items-center justify-content-center">
-			<div class="flex-column text-center px-5">
-				<i class="fa-solid fa-robot fa-3x"></i>
-				<p class="pt-2">AAAAA</p>
-			</div>
-			<div class="flex-column text-center px-5">
-				<i class="fa-solid fa-user"></i>
-				<p>AAAAA</p>
-			</div>
-			<div class="flex-column text-center px-5">
-				<i class="fa-solid fa-user"></i>
-				<p>AAAAA</p>
+		<div class="container">
+			<div class="row justify-content-center">
+				<div class="col-lg-4 text-center">
+					<i class="fa-solid fa-brain fa-3x"></i>
+					<p class="pt-3"><b>neurahub</b> uses machine learning to collect and provide important data that can be used to track students learning progress</p>
+				</div>
+				<div class="col-lg-4 text-center">
+					<i class="fa-brands fa-github fa-3x"></i>
+					<p class="pt-3"><b>neurahub</b> is an open source project, you can check its code whenever you want</p>
+				</div>
+				<div class="col-lg-4 text-center">
+					<i class="fa-solid fa-comment fa-3x"></i>
+					<p class="pt-3">Our goal is to provide a comfortable and calm communication between students and teachers, with feedbacks, data analysis and of course dialog, it's possible to provide a more harmonic ambient</p>
+				</div>
 			</div>
 		</div>
+		<div class="d-flex flex-column mx-auto align-items-center justify-content-center">
+			<h1 class="font-weight-bold pt-4 pb-2 text-center">Development</h1>
+		</div>
+		<div class="container">
+			<div class="row justify-content-center align-items-center">
+				<div class="col-lg-4 text-center">
+					<p class="pt-3"><b>neurahub</b> uses Python in the back-end and in the model development, everything is brought to you by Atomic AI</p>
+				</div>
+				<div class="col-lg-4 text-center">
+					<img src="{{ url_for('static', filename='img/atomicai_logo.png') }}" alt="Logo" height="256" class="d-inline-block align-items-center">
+				</div>
+			</div>
+		</div>
+		<footer class="bg-dark text-white p-4">
+			<div class="container">
+				<div class="row">
+					<div class="col-md-6 text-center">
+						<h4>Contact</h4>
+						<p>Email: marcot.dns@gmail.com</p>
+					</div>
+					<div class="col-md-6 text-md-right text-center">
+						<h4>Follow us</h4>
+						<a href="https://github.com/labsatomicai" target="_blank" class="text-white">Github</a>
+					</div>
+				</div>
+				<div class="row mt-3">
+					<div class="col-12 text-center">
+						<p>&copy; <span id="current_year"></span> Atomic AI. All rights reserved.</p>
+					</div>
+				</div>
+			</div>
+		</footer>
+		<script>
+			document.getElementById('current_year').innerText = new Date().getFullYear();
+		</script>
 		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
 	</body>
 </html>
