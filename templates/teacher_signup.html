@@ -9,34 +9,28 @@
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 	</head>
 	<body>
-		<div class="container-fluid py-5 my-5 h-100">
-			<div class="d-flex flex-column mx-5 justify-content-center border rounded w-md-50 w-lg-25 p-5 shadow-lg">
+		<div class="container py-5 my-5 h-100">
+			<div class="d-flex flex-column mx-auto justify-content-center border rounded w-50 p-5 shadow-lg">
 				<div>
 					<img src="{{ url_for('static', filename='img/neurahub_logo_no_bg.png') }}" alt="Logo" height="128" class="d-inline-block align-items-center px-2">
 				</div>
 				<div>
-					<form method="POST" action="" class="needs-validation" novalidate>
-						<div class="row">
-							<div class="form-group col-md-12 p-2">
-								<label for="username">Username</label>
-								<input type="text" class="form-control" id="username" name="username" placeholder="Create a username" required>
-								<div class="invalid-feedback">Please choose a username.</div>
-							</div>
-							<br>
-							<div class="form-group col-md-12 p-2">
-								<label for="password">Password</label>
-								<input type="password" class="form-control" id="password" name="password" placeholder="Create a strong password" required>
-								<div class="invalid-feedback">Please choose a password.</div>
-							</div>
+					<form method="POST" action="">
+						<div class="form-group p-2 h-100">
+							<label for="mail">Username</label>
+							<input type="text" class="form-control" id="username"  name="username" placeholder="Crete an username">
 						</div>
-						<div class="form-group col-md-12 p-2">
-							<label for="room">Room</label>
-							<select id="room" name="room-id" class="form-select" required>
-								{% for room in rooms %}
-								<option value="{{ room[0] }}">{{ room[1] }}</option>
+						<div class="form-group p-2">
+							<label for="password">Password</label>
+							<input type="password" class="form-control" id="password" name="password" placeholder="Create a strong password">
+						</div>
+						<div class="form-group p-2">
+							<label for="room">Study area</label>
+							<select id="study-area" name="area-id" class="form-select">
+								{% for area in areas %}
+									<option value="{{ area[0] }}">{{ area[1] }}</option>
 								{% endfor %}
 							</select>
-							<div class="invalid-feedback">Please choose a room.</div>
 						</div>
 						<button type="submit" class="btn btn-primary mx-2 my-4">Submit</button>
 					</form>
