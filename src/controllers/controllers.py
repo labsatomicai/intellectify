@@ -23,7 +23,6 @@ def get_rooms():
 
     return rooms
 
-
 def signup_page():
     if request.method == 'POST':
         username = request.form['username']
@@ -101,3 +100,22 @@ def teacher_signup_page():
     study_areas = get_study_areas()
     return render_template('teacher_signup.html', areas=study_areas)
 
+def teacher_login_page():
+    if request.method == 'POST':
+        inserted_teacher_username = request.form['username']
+        inserted_teacher_password = request.form['password']
+
+        if not validate_username(inserted_teacher_username):
+            return "Invalid username"
+        conn = sqlite3.connect('databases/neurahub-data.db')
+        cursor = conn.cursor()
+        cursor.execute("SELECT password FROM teachers WHERE name = ?", (inserted_teacher_username,))
+        stored_password = cursor.fetchone()
+
+        if stored_password:
+            if check_password_hash(stored_password[0], inserted_teacher_password):
+                return redirect('/')
+
+        return "Login failed"
+
+    return render_template('teacher_login.html')
