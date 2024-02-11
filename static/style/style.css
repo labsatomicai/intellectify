@@ -15,6 +15,11 @@
 	background-size: cover;
 }
 
-.bottom-cta{
-	background-color: #005577;
+.access-button{
+	background: #005577;
+	text-decoration: none;
+}
+
+.icon{
+	color: #004966
 }

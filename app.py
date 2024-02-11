@@ -1,19 +1,9 @@
-from flask import Flask, render_template
+from flask import Flask
+from src.routes.routes import blueprint as app_routes
 
 app = Flask(__name__)
 
-
-@app.route('/')
-def index():
-    return render_template('index.html')
-
-@app.route('/register')
-def register():
-    return "Register page"
-
-@app.route('/login')
-def login():
-    return "Login page"
+app.register_blueprint(app_routes)
 
 if __name__ == "__main__":
     app.run(debug=True)
