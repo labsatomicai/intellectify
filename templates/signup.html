@@ -9,15 +9,15 @@
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 	</head>
 	<body>
-		<div class="container-fluid py-5 my-5 h-100">
-			<div class="d-flex flex-column mx-5 justify-content-center border rounded w-md-50 w-lg-25 p-5 shadow-lg">
+		<div class="container py-5 my-5 h-100">
+			<div class="d-flex flex-column mx-auto justify-content-center border rounded wd-50 p-5 shadow-lg">
 				<div>
 					<img src="{{ url_for('static', filename='img/neurahub_logo_no_bg.png') }}" alt="Logo" height="128" class="d-inline-block align-items-center px-2">
 				</div>
 				<div>
 					<form method="POST" action="" class="needs-validation" novalidate>
 						<div class="row">
-							<div class="form-group col-md-12 p-2">
+							<div class="form-group p-2 h-100">
 								<label for="username">Username</label>
 								<input type="text" class="form-control" id="username" name="username" placeholder="Create a username" required>
 								<div class="invalid-feedback">Please choose a username.</div>

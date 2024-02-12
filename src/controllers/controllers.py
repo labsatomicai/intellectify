@@ -1,4 +1,4 @@
-from flask import render_template, request, redirect, url_for
+from flask import render_template, request, redirect, url_for, session
 from werkzeug.security import generate_password_hash, check_password_hash
 import sqlite3, re
 
@@ -73,10 +73,20 @@ def get_study_areas():
     conn = sqlite3.connect('databases/neurahub-data.db')
     cursor = conn.cursor()
     cursor.execute("SELECT id, area_name FROM teacher_areas")
-    areas = cursor.fetchall()
+    avaliable_study_areas = cursor.fetchall()
     conn.close()
 
-    return areas
+    return avaliable_study_areas
+
+def get_registered_teacher_area(username):
+    conn = sqlite3.connect('databases/neurahub-data.db')
+    cursor = conn.cursor()
+    cursor.execute("SELECT area_id FROM teachers WHERE name = ?", (username,))
+    area_id = cursor.fetchone()[0]  # assume que você está recebendo apenas um ID
+    cursor.execute("SELECT area_name FROM teacher_areas WHERE id = ?", (area_id,))
+    area_name = cursor.fetchone()[0]
+    conn.close()
+    return area_name
 
 def teacher_signup_page():
     if request.method == 'POST':
@@ -107,6 +117,7 @@ def teacher_login_page():
 
         if not validate_username(inserted_teacher_username):
             return "Invalid username"
+
         conn = sqlite3.connect('databases/neurahub-data.db')
         cursor = conn.cursor()
         cursor.execute("SELECT password FROM teachers WHERE name = ?", (inserted_teacher_username,))
@@ -114,6 +125,8 @@ def teacher_login_page():
 
         if stored_password:
             if check_password_hash(stored_password[0], inserted_teacher_password):
+                session['area'] = get_registered_teacher_area(inserted_teacher_username)
+                print(session['area'])
                 return redirect('/')
 
         return "Login failed"
