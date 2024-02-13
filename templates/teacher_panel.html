@@ -19,14 +19,41 @@
 		<div class="container mx-auto p-4">
 			<h2>Launched tasks</h2>
 			<hr>
-			<p> Tasks goes here </p>
-			<p> Tasks goes here </p>
-			<p> Tasks goes here </p>
-			<p> Tasks goes here </p>
-			<p> Tasks goes here </p>
-			<p> Tasks goes here </p>
-			<p> Tasks goes here </p>
-			<p> Tasks goes here </p>
+			<div class="table-responsive">
+				<table class="table table-bordered table-striped table-hover">
+					<thead>
+						<tr>
+							<th scope="col">Task Name</th>
+							<th scope="col">Due Date</th>
+							<th scope="col">Area</th>
+							<th scope="col">Room</th>
+							<th scope="col">Teacher</th>
+							<th scope="col">Action</th>
+						</tr>
+					</thead>
+					<tbody>
+						{% for task in created_tasks %}
+						<tr>
+							<td>{{ task['task_name'] }}</td>
+							<td>{{ task['due_date'] }}</td>
+							<td>{{ task['area_name'] }}</td>
+							<td>{{ task['room_name'] }}</td>
+							<td>{{ task['teacher_name'] }}</td>
+							<td>
+								<div class="d-flex justify-content-between">
+									<div class="px-1">
+										<a href="{{ url_for('main.return_edit_task', task_id=task['task_id']) }}" class="btn btn-primary btn-sm">Editar</a>
+									</div>
+									<div class="px-1">
+										<a href="#" class="btn btn-danger btn-sm">Deletar</a>
+									</div>
+								</div>
+							</td>
+						</tr>
+						{% endfor %}
+					</tbody>
+				</table>
+			</div>
 			<hr>
 			<div class="d-flex justify-content-end">
 				<a class="btn btn-primary  active" role="button" aria-pressed="true" href="/create-task">Add new task</a>

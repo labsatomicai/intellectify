@@ -1,4 +1,5 @@
 import re, sqlite3
+import hashlib
 
 def validate_username(username):
     if not (3 <= len(username) <= 20):
@@ -15,3 +16,9 @@ def get_rooms():
     conn.close()
 
     return rooms
+
+def generate_token(task_id):
+    id_str = str(task_id)
+    print(id_str)
+    hashed_id = hashlib.sha256(id_str.encode('utf-8')).hexdigest()
+    return hashed_id

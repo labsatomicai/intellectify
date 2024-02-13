@@ -6,8 +6,9 @@ from src.routes.routes import blueprint as app_routes
 load_dotenv()
 
 app = Flask(__name__)
-secret_key = os.getenv('FLASK_SECRET_KEY')
-app.secret_key = secret_key
+
+flask_secret_key = os.getenv('FLASK_SECRET_KEY')
+app.secret_key = flask_secret_key
 
 app.register_blueprint(app_routes)
 

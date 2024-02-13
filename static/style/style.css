@@ -13,13 +13,8 @@
 	background-position: center;
 	background-repeat: no-repeat;
 	background-size: cover;
+	font-weight: 600;
+	font-size: 2rem;
 }
 
-.access-button{
-	background: #005577;
-	text-decoration: none;
-}
 
-.icon{
-	color: #004966
-}

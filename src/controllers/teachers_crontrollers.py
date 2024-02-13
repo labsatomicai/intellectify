@@ -1,7 +1,7 @@
 import sqlite3
 from flask import render_template, request, redirect, url_for, session
 from werkzeug.security import generate_password_hash, check_password_hash
-from .controllers_methods import validate_username, get_rooms
+from .controllers_methods import validate_username, get_rooms, generate_token
 
 
 # Teachers signup route
@@ -62,30 +62,80 @@ def teacher_login_page():
         if stored_password:
             if check_password_hash(stored_password[0], inserted_teacher_password):
                 session['area'] = get_registered_teacher_area(inserted_teacher_username)
-                print(session['area'])
+                session['logged_in_teacher'] = True
                 return redirect('/teacher-panel')
 
         return "Login failed"
     return render_template('teacher_login.html')
 
+
 def teacher_panel_page():
-    return render_template('teacher_panel.html')
-
-def create_task():
-    if request.method == 'POST':
-        task_name = request.form['task']
-        due_date = request.form['due_date']
-        area_id = request.form['area-id']
-        room_id = request.form['room-id']
-
+    if session.get('logged_in_teacher'):
         conn = sqlite3.connect('databases/neurahub-data.db')
         cursor = conn.cursor()
 
-        cursor.execute("INSERT INTO tasks (task_name, due_date, area_id, room_id) VALUES (?, ?, ?, ?)", (task_name, due_date, area_id, room_id))
-        conn.commit()
-        conn.close
+        teacher_area = session.get('area')
+        print(teacher_area)
+
+        cursor.execute("SELECT id, name FROM teachers WHERE area_id = (SELECT id FROM teacher_areas WHERE area_name = ?)", (teacher_area,))
+        teacher_info = cursor.fetchone()
+
+        if not teacher_info:
+            return render_template('teacher_panel.html', created_tasks=[])
+
+        teacher_id, teacher_name = teacher_info
+
+        cursor.execute("""
+           SELECT tasks.*, rooms.room_name
+           FROM tasks
+           LEFT JOIN rooms ON tasks.room_id = rooms.id
+           WHERE tasks.area_id = ? AND tasks.teacher_id = ?;
+           """, (area_id, teacher_id))
+
+        teacher_tasks = cursor.fetchall()
+
+        print(teacher_tasks)
+
+        teacher_tasks_with_room_name = []
+
+        for task in teacher_tasks:
+            task_id, task_name, due_date, area_id, room_id, room_name = task
+
+            teacher_tasks_with_room_name.append({
+                'task_id': task_id,
+                'task_name': task_name,
+                'due_date': due_date,
+                'area_name': teacher_area,
+                'room_name': room_name,
+                'teacher_name': teacher_name,
+            })
+
+        return render_template('teacher_panel.html', created_tasks=teacher_tasks_with_room_name)
+    else:
+        return redirect('/teacher-login')
 
 
-    avaliable_study_areas = get_study_areas()
-    avaliable_rooms = get_rooms()
-    return render_template('create_task.html', rooms=avaliable_rooms, areas=avaliable_study_areas)
+def create_task():
+    if session.get('logged_in_teacher'):
+        if request.method == 'POST':
+            task_name = request.form['task']
+            due_date = request.form['due_date']
+            area_id = request.form['area-id']
+            room_id = request.form['room-id']
+
+            conn = sqlite3.connect('databases/neurahub-data.db')
+            cursor = conn.cursor()
+
+            cursor.execute("INSERT INTO tasks (task_name, due_date, area_id, room_id) VALUES (?, ?, ?, ?)", (task_name, due_date, area_id, room_id))
+            conn.commit()
+            conn.close()
+
+
+        avaliable_study_areas = get_study_areas()
+        avaliable_rooms = get_rooms()
+        return render_template('create_task.html', rooms=avaliable_rooms, areas=avaliable_study_areas)
+
+def edit_task(task_id):
+    token = generate_token(task_id)
+    return redirect(url_for('main.process_edition', token=token))
+
