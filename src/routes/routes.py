@@ -1,5 +1,5 @@
 from flask import Blueprint
-from ..controllers.teachers_crontrollers import teacher_login_page, teacher_signup_page, teacher_panel_page, create_task, edit_task
+from ..controllers.teachers_crontrollers import teacher_login_page, teacher_signup_page, teacher_panel_page, create_task, edit_task, tokenize_id
 from ..controllers.students_controllers import homepage, signup_page, login_page, students_tasks_panel 
 
 blueprint = Blueprint('main', __name__)
@@ -39,13 +39,12 @@ def return_teacher_panel():
 def return_create_task():
     return create_task()
 
-@blueprint.route('/edit-task/<int:task_id>', methods=['GET'])
-def return_edit_task(task_id):
-    return edit_task(task_id)
+@blueprint.route('/process-id/<int:task_id>', methods=['GET'])
+def return_processed_id(task_id):
+    return tokenize_id(task_id)
 
-@blueprint.route('/process-edit/<token>', methods=['GET'])
-def process_edition(token):
-    return "editing"
-
+@blueprint.route('/edit-task/<token>', methods=['GET'])
+def return_task_edition(token):
+    return edit_task(token)
 if __name__ == '__main__':
     blueprint.run(debug=True)

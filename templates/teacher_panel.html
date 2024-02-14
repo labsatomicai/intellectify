@@ -20,7 +20,7 @@
 			<h2>Launched tasks</h2>
 			<hr>
 			<div class="table-responsive">
-				<table class="table table-bordered table-striped table-hover">
+				<table class="table table-bordered table-striped table-hover text-center align-items-center">
 					<thead>
 						<tr>
 							<th scope="col">Task Name</th>
@@ -40,12 +40,12 @@
 							<td>{{ task['room_name'] }}</td>
 							<td>{{ task['teacher_name'] }}</td>
 							<td>
-								<div class="d-flex justify-content-between">
+								<div class="d-flex justify-content-center">
 									<div class="px-1">
-										<a href="{{ url_for('main.return_edit_task', task_id=task['task_id']) }}" class="btn btn-primary btn-sm">Editar</a>
+										<a href="{{ url_for('main.return_processed_id', task_id=task['task_id']) }}" class="btn btn-primary btn-sm">Edit</a>
 									</div>
 									<div class="px-1">
-										<a href="#" class="btn btn-danger btn-sm">Deletar</a>
+										<a href="#" class="btn btn-danger btn-sm">Delete</a>
 									</div>
 								</div>
 							</td>
