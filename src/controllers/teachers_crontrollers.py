@@ -120,7 +120,6 @@ def edit_task(token):
     if check_if_teacher_logged_in():
         original_task_id = degenerate_token(token)
         original_task = get_task_by_id(original_task_id)
-        print(original_task)
 
         if original_task:
             if request.method == 'POST':
@@ -162,3 +161,23 @@ def delete_task(token):
     else:
         return redirect('/teacher-login')
 
+def tokenize_id_for_feedback(task_id):
+    if check_if_teacher_logged_in():
+        token = generate_token(task_id)
+        return redirect(url_for('main.return_task_feedback', token=token))
+
+def get_feedback(token):
+    if check_if_teacher_logged_in():
+        task_to_get_feedbacks = degenerate_token(token)
+
+        conn = sqlite3.connect('databases/neurahub-data.db')
+        cursor = conn.cursor()
+        
+        cursor.execute("SELECT * FROM feedbacks WHERE task_id = ?", (task_to_get_feedbacks,))
+
+        students_feedback = cursor.fetchall()
+        
+        conn.close()
+
+        return str(students_feedback)
+    

@@ -1,7 +1,7 @@
 import sqlite3
 from flask import render_template, request, redirect, url_for, session
 from werkzeug.security import generate_password_hash, check_password_hash
-from .controllers_methods import validate_username, get_rooms, generate_token, check_if_student_logged_in, degenerate_token, get_task_by_id
+from .controllers_methods import validate_username, get_rooms, generate_token, check_if_student_logged_in, degenerate_token, get_task_by_id, predict_task_result
 
 def homepage():
     return render_template('index.html')
@@ -61,15 +61,17 @@ def students_tasks_panel():
         conn = sqlite3.connect('databases/neurahub-data.db')
         cursor = conn.cursor()
         room_id = session.get('room_id')
-        print(room_id)
+        username = session.get('student_username')
 
         if room_id is not None:
             cursor.execute("""
-                SELECT tasks.*, teacher_areas.area_name
-                FROM tasks
-                JOIN teacher_areas ON tasks.area_id = teacher_areas.id
-                WHERE tasks.room_id = ?
-            """, (room_id,))
+                           SELECT tasks.id, tasks.task_name, tasks.due_date, tasks.room_id, teacher_areas.area_name
+                           FROM tasks
+                           JOIN teacher_areas ON tasks.area_id = teacher_areas.id
+                           LEFT JOIN feedbacks ON tasks.id = feedbacks.task_id AND feedbacks.student_username = ?
+                           WHERE tasks.room_id = ? AND feedbacks.id IS NULL
+                           """, (username, room_id))
+
             pending_tasks = cursor.fetchall()
             print(pending_tasks)
         conn.close()
@@ -87,6 +89,29 @@ def rate_task(token):
     if check_if_student_logged_in():
         task_id_to_be_reviewed = degenerate_token(token)
         task_to_review = get_task_by_id(task_id_to_be_reviewed)
-        print(task_to_review)
+        
+        if task_to_review:
+            if request.method == 'POST':
+                user_satisfaction = request.form['ov-satisfaction']
+                user_clarity = request.form['clarity-relevance']
+                user_resources = request.form['resources']
+                user_learning_exp = request.form['learning']
+                user_improvements = request.form['improvements']
+
+                user_numbered_rating  = float(request.form['grade'])
+                rating_result = predict_task_result(user_numbered_rating)
+
+                username = session.get('student_username')
+
+                conn = sqlite3.connect('databases/neurahub-data.db')
+                cursor = conn.cursor()
+
+                cursor.execute("""
+                INSERT INTO feedbacks (task_id, student_username, satisfaction, clarity, resources, learning_exp, improvements, numbered_rating, rating_result) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+            """, (task_id_to_be_reviewed, session['student_username'], user_satisfaction, user_clarity, user_resources, user_learning_exp, user_improvements, user_numbered_rating, rating_result))
+
+                conn.commit()
+                conn.close()
+
         return render_template('rate_task.html', task=task_to_review)
 

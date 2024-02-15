@@ -1,5 +1,5 @@
 from flask import Blueprint
-from ..controllers.teachers_crontrollers import teacher_login_page, teacher_signup_page, teacher_panel_page, create_task, edit_task, tokenize_id_for_edition, tokenize_id_to_delete, delete_task
+from ..controllers.teachers_crontrollers import teacher_login_page, teacher_signup_page, teacher_panel_page, create_task, edit_task, tokenize_id_for_edition, tokenize_id_to_delete, delete_task, tokenize_id_for_feedback, get_feedback
 from ..controllers.students_controllers import homepage, signup_page, login_page, students_tasks_panel , tokenize_id_for_rating, rate_task
 
 blueprint = Blueprint('main', __name__)
@@ -62,6 +62,14 @@ def return_processed_id_to_delete(task_id):
 @blueprint.route('/delete-task/<token>')
 def return_task_deletion(token):
     return delete_task(token)
+
+@blueprint.route('/feedback-process-id/<int:task_id>', methods=['GET'])
+def return_processed_id_to_feedback(task_id):
+    return tokenize_id_for_feedback(task_id)
+
+@blueprint.route('/feedback/<token>')
+def return_task_feedback(token):
+    return get_feedback(token)
 
 if __name__ == '__main__':
     blueprint.run(debug=True)

@@ -1,5 +1,7 @@
 import re, sqlite3, base64
+import numpy as np
 from flask import session, redirect
+from keras.models import load_model
 
 def validate_username(username):
     if not (3 <= len(username) <= 20):
@@ -54,6 +56,21 @@ def degenerate_token(token):
     task_id = int(id_bytes)
     return task_id
 
+def predict_task_result(grade):
+    possible_answers = ["Negative", "Positive"]
+
+    round(grade, 1)
+
+    model = load_model('model/rating_model.h5')
+    prediction = model.predict(np.array([[grade]]))
+    
+    if prediction >= 0.95:
+        return possible_answers[1]
+    else:
+        return possible_answers[0]
+
+
+
 def check_if_teacher_logged_in():
     if session.get('logged_in_teacher'):
         return True
@@ -61,3 +78,4 @@ def check_if_teacher_logged_in():
 def check_if_student_logged_in():
     if session.get('student_username'):
         return True
+

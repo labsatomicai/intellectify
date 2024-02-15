@@ -40,7 +40,10 @@
 							<td>{{ task['room_name'] }}</td>
 							<td>{{ task['teacher_name'] }}</td>
 							<td>
-								<div class="d-flex justify-content-center">
+								<div class="d-flex justify-content-center"H>
+									<div class="px-1">
+										<a href="{{ url_for('main.return_processed_id_to_feedback', task_id=task['task_id']) }}" class="btn btn-success btn-sm">Feedbacks</a>
+									</div>
 									<div class="px-1">
 										<a href="{{ url_for('main.return_processed_id_to_edit', task_id=task['task_id']) }}" class="btn btn-primary btn-sm">Edit</a>
 									</div>
