@@ -36,6 +36,14 @@ def get_registered_teacher_area(username):
     conn.close()
     return area_name
 
+def  get_task_by_id(task_id):
+    conn = sqlite3.connect('databases/neurahub-data.db')
+    cursor = conn.cursor()
+    cursor.execute("SELECT * FROM tasks WHERE id = ?", (task_id,))
+    task = cursor.fetchone()
+    conn.close
+    return task;
+
 def generate_token(task_id):
     id_str = str(task_id).encode('utf-8')
     hashed_id = base64.urlsafe_b64encode(id_str).decode('utf-8')

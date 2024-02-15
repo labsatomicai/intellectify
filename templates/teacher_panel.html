@@ -42,10 +42,10 @@
 							<td>
 								<div class="d-flex justify-content-center">
 									<div class="px-1">
-										<a href="{{ url_for('main.return_processed_id', task_id=task['task_id']) }}" class="btn btn-primary btn-sm">Edit</a>
+										<a href="{{ url_for('main.return_processed_id_to_edit', task_id=task['task_id']) }}" class="btn btn-primary btn-sm">Edit</a>
 									</div>
 									<div class="px-1">
-										<a href="#" class="btn btn-danger btn-sm">Delete</a>
+										<a href="{{ url_for('main.return_processed_id_to_delete', task_id=task['task_id']) }}" class="btn btn-danger btn-sm">Delete</a>
 									</div>
 								</div>
 							</td>

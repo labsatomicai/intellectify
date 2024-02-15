@@ -1,7 +1,7 @@
 import sqlite3
 from flask import render_template, request, redirect, url_for, session
 from werkzeug.security import generate_password_hash, check_password_hash
-from .controllers_methods import validate_username, get_rooms, get_registered_teacher_area, get_study_areas, generate_token, degenerate_token, check_if_teacher_logged_in
+from .controllers_methods import validate_username, get_rooms, get_registered_teacher_area, get_study_areas, generate_token, degenerate_token, check_if_teacher_logged_in, get_task_by_id
 
 
 # Teachers signup route
@@ -87,7 +87,7 @@ def teacher_panel_page():
 
 
 def create_task():
-    if session.get('logged_in_teacher'):
+    if check_if_teacher_logged_in():
         if request.method == 'POST':
             task_name = request.form['task']
             due_date = request.form['due_date']
@@ -109,8 +109,8 @@ def create_task():
         return render_template('create_task.html', rooms=avaliable_rooms, areas=avaliable_study_areas)
 
 
-def tokenize_id(task_id):
-    if session.get('logged_in_teacher'):
+def tokenize_id_for_edition(task_id):
+    if check_if_teacher_logged_in():
         token = generate_token(task_id)
         return redirect(url_for('main.return_task_edition', token=token))
     else:
@@ -119,7 +119,46 @@ def tokenize_id(task_id):
 def edit_task(token):
     if check_if_teacher_logged_in():
         original_task_id = degenerate_token(token)
-        return "Ok"
+        original_task = get_task_by_id(original_task_id)
+        print(original_task)
+
+        if original_task:
+            if request.method == 'POST':
+                new_task_name = request.form['new-task-name']
+                new_due_date = request.form['new-due-date']
+                
+                if new_task_name != original_task[1] or new_due_date != original_task[2]:
+                    conn = sqlite3.connect('databases/neurahub-data.db')
+                    cursor = conn.cursor()
+                    cursor.execute("UPDATE tasks SET task_name = ?, due_date = ? WHERE id =?", (new_task_name, new_due_date, original_task_id))
+                    conn.commit()
+                    conn.close()
+
+                    return redirect('/teacher-panel')
+            else:
+                return render_template('edit_task.html', task=original_task) 
+    else:
+        return redirect('/teacher-login')
+
+
+def tokenize_id_to_delete(task_id):
+    if check_if_teacher_logged_in():
+        token = generate_token(task_id)
+        return redirect(url_for('main.return_task_deletion', token=token))
+
+def delete_task(token):
+    if check_if_teacher_logged_in():
+        task_to_delete = degenerate_token(token)
+
+        conn = sqlite3.connect('databases/neurahub-data.db')
+        cursor = conn.cursor()
+
+        cursor.execute("DELETE FROM tasks WHERE id = ?", (task_to_delete,))
+
+        conn.commit()
+        conn.close()
+
+        return redirect('/teacher-panel')
     else:
         return redirect('/teacher-login')
 
