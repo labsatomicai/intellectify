@@ -1,6 +1,6 @@
 from flask import Blueprint
 from ..controllers.teachers_crontrollers import teacher_login_page, teacher_signup_page, teacher_panel_page, create_task, edit_task, tokenize_id_for_edition, tokenize_id_to_delete, delete_task
-from ..controllers.students_controllers import homepage, signup_page, login_page, students_tasks_panel 
+from ..controllers.students_controllers import homepage, signup_page, login_page, students_tasks_panel , tokenize_id_for_rating, rate_task
 
 blueprint = Blueprint('main', __name__)
 
@@ -20,6 +20,14 @@ def return_login():
 @blueprint.route('/assignments')
 def return_tasks_panel():
     return students_tasks_panel()
+
+@blueprint.route('/rate-process-id/<int:task_id>', methods=['GET'])
+def return_processed_id_to_rate(task_id):
+    return tokenize_id_for_rating(task_id)
+
+@blueprint.route('/rate-task/<token>', methods=['GET', 'POST'])
+def return_task_rating(token):
+    return rate_task(token)
 
 # Teachers router
 

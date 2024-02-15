@@ -57,3 +57,7 @@ def degenerate_token(token):
 def check_if_teacher_logged_in():
     if session.get('logged_in_teacher'):
         return True
+
+def check_if_student_logged_in():
+    if session.get('student_username'):
+        return True
