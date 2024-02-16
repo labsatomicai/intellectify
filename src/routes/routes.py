@@ -12,7 +12,7 @@ def return_index():
 def return_access():
     return render_template('login_panel.html')
 
-@blueprint.route('/success', methods=['GET'])
+@blueprint.route('/success', methods=['GET', 'POST'])
 def return_success():
     return render_template('success.html')
 
