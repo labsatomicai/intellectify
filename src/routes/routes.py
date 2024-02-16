@@ -1,21 +1,33 @@
-from flask import Blueprint
+from flask import Blueprint, render_template
 from ..controllers.teachers_crontrollers import teacher_login_page, teacher_signup_page, teacher_panel_page, create_task, edit_task, tokenize_id_for_edition, tokenize_id_to_delete, delete_task, tokenize_id_for_feedback, get_feedback
-from ..controllers.students_controllers import homepage, signup_page, login_page, students_tasks_panel , tokenize_id_for_rating, rate_task
+from ..controllers.students_controllers import students_signup_page, students_login_page , students_tasks_panel , tokenize_id_for_rating, rate_task
 
 blueprint = Blueprint('main', __name__)
 
 @blueprint.route('/', methods=['GET'])
 def return_index():
-    return homepage()
+    return render_template('index.html')
+
+@blueprint.route('/access', methods=['GET'])
+def return_access():
+    return render_template('login_panel.html')
+
+@blueprint.route('/success', methods=['GET'])
+def return_success():
+    return render_template('success.html')
+
+@blueprint.route('/error', methods=['GET'])
+def return_error():
+    return render_template('error.html')
 
 # Students routes
-@blueprint.route('/signup', methods=['GET', 'POST'])
+@blueprint.route('/student-signup', methods=['GET', 'POST'])
 def return_signup():
-    return signup_page()
+    return students_signup_page()
 
-@blueprint.route('/login', methods=['GET', 'POST'])
+@blueprint.route('/student-login', methods=['GET', 'POST'])
 def return_login():
-    return login_page()
+    return students_login_page()
 
 @blueprint.route('/assignments')
 def return_tasks_panel():

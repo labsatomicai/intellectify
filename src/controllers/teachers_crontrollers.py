@@ -29,26 +29,32 @@ def teacher_signup_page():
     return render_template('teacher_signup.html', areas=study_areas)
 
 def teacher_login_page():
-    if request.method == 'POST':
-        inserted_teacher_username = request.form['username']
-        inserted_teacher_password = request.form['password']
+    if check_if_teacher_logged_in():
+        return redirect('/teacher-panel')
+    else:
+        if request.method == 'POST':
+            inserted_teacher_username = request.form['username']
+            inserted_teacher_password = request.form['password']
 
-        if not validate_username(inserted_teacher_username):
-            return "Invalid username"
+            if not validate_username(inserted_teacher_username):
+                return redirect('/error')
+            
+            if len(inserted_teacher_password) == 0:
+                return redirect('/error')
 
-        conn = sqlite3.connect('databases/neurahub-data.db')
-        cursor = conn.cursor()
-        cursor.execute("SELECT password FROM teachers WHERE name = ?", (inserted_teacher_username,))
-        stored_password = cursor.fetchone()
+            conn = sqlite3.connect('databases/neurahub-data.db')
+            cursor = conn.cursor()
+            cursor.execute("SELECT password FROM teachers WHERE name = ?", (inserted_teacher_username,))
+            stored_password = cursor.fetchone()
 
-        if stored_password:
-            if check_password_hash(stored_password[0], inserted_teacher_password):
-                session['logged_in_teacher'] = True
-                session['teacher_username'] = inserted_teacher_username
-                return redirect('/teacher-panel')
+            if stored_password:
+                if check_password_hash(stored_password[0], inserted_teacher_password):
+                    session['logged_in_teacher'] = True
+                    session['teacher_username'] = inserted_teacher_username
+                    return redirect('/teacher-panel')
 
-        return "Login failed"
-    return render_template('teacher_login.html')
+            return "Login failed"
+        return render_template('teacher_login.html')
 
 
 def teacher_panel_page():
@@ -176,8 +182,11 @@ def get_feedback(token):
         cursor.execute("SELECT * FROM feedbacks WHERE task_id = ?", (task_to_get_feedbacks,))
 
         students_feedback = cursor.fetchall()
+
+        cursor.execute("SELECT task_name FROM tasks WHERE id = ?", (task_to_get_feedbacks,))
+        task_name = cursor.fetchone()[0]
         
         conn.close()
 
-        return str(students_feedback)
+        return render_template('feedbacks.html', feedbacks=students_feedback, task_name=task_name)
     

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 	<head>
-		<title>neurahub</title>
+		<title>neurahub - rate task</title>
 		<meta charset="UTF-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='style/style.css') }}">
@@ -16,7 +16,7 @@
 				</div>
 				<div>
 					<h5 class="p-2">Rating: {{ task[1] }} </h5>
-					<form method="POST" action="">
+					<form method="POST" action="/success">
 						<div class="form-group p-2 h-100">
 							<label for="ov-satisfaction"><strong>Overall satisfaction</strong></label>
 							<p>How would you describe your overall satisfaction with the activity</p>

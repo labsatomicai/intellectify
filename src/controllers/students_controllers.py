@@ -3,13 +3,9 @@ from flask import render_template, request, redirect, url_for, session
 from werkzeug.security import generate_password_hash, check_password_hash
 from .controllers_methods import validate_username, get_rooms, generate_token, check_if_student_logged_in, degenerate_token, get_task_by_id, predict_task_result
 
-def homepage():
-    return render_template('index.html')
-
-
 # Signup route
 
-def signup_page():
+def students_signup_page():
     if request.method == 'POST':
         username = request.form['username']
         raw_user_password = request.form['password']
@@ -33,28 +29,32 @@ def signup_page():
 
 # Login route
 
-def login_page():
-    if request.method == 'POST':
-        inserted_username = request.form['username']
-        inserted_user_password = request.form['password']
+def students_login_page():
+    if check_if_student_logged_in(): 
+        return redirect('/assignments')
+    else:
+        if request.method == 'POST':
+            inserted_username = request.form['username']
+            inserted_user_password = request.form['password']
 
-        if not  validate_username(inserted_username):
-            return "Invalidad username"
+            if not  validate_username(inserted_username):
+                return redirect('/error')
 
-        conn = sqlite3.connect('databases/neurahub-data.db')
-        cursor = conn.cursor()
-        cursor.execute("SELECT password, room_id FROM students WHERE name = ?", (inserted_username,))
-        stored_password, room_id = cursor.fetchone()
-        
-        if stored_password:
-            if check_password_hash(stored_password, inserted_user_password):
-                session['room_id'] = room_id
-                session['student_username'] = inserted_username
-                return redirect('/assignments')
-        else:
-            return "Login failed"
+            if len(inserted_user_password) == 0:
+                return redirect('/error')
 
-    return render_template('login.html')
+            conn = sqlite3.connect('databases/neurahub-data.db')
+            cursor = conn.cursor()
+            cursor.execute("SELECT password, room_id FROM students WHERE name = ?", (inserted_username,))
+            stored_password, room_id = cursor.fetchone()
+            
+            if stored_password:
+                if check_password_hash(stored_password, inserted_user_password):
+                    session['room_id'] = room_id
+                    session['student_username'] = inserted_username
+                    return redirect('/assignments')
+
+        return render_template('students_login.html')
 
 def students_tasks_panel():
     if check_if_student_logged_in(): 
@@ -73,17 +73,18 @@ def students_tasks_panel():
                            """, (username, room_id))
 
             pending_tasks = cursor.fetchall()
-            print(pending_tasks)
         conn.close()
         
         return render_template('student_panel.html', tasks=pending_tasks)
     else:
-        return redirect('/login')
+        return redirect('/student-login')
 
 def tokenize_id_for_rating(task_id):
     if check_if_student_logged_in():
         token = generate_token(task_id)
         return redirect(url_for('main.return_task_rating', token=token))
+    else:
+        return redirect('/student-login')
 
 def rate_task(token):
     if check_if_student_logged_in():
@@ -114,4 +115,7 @@ def rate_task(token):
                 conn.close()
 
         return render_template('rate_task.html', task=task_to_review)
+    else:
+        return redirect('/student-login')
+
 
