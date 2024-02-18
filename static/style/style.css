@@ -6,15 +6,16 @@
 	font-family: 'Noto Sans', sans-serif;
 }
 
+.navbar{
+	background: #f9f9f9;
+}
+
 .welcome-section{
 	background-image: url("../img/banner.png");
-	min-height: 95vh;
+	min-height: 100vh;
 	background-attachment: fixed;
 	background-position: center;
 	background-repeat: no-repeat;
 	background-size: cover;
-	font-weight: 600;
 	font-size: 2rem;
 }
-
-
