@@ -1,9 +1,10 @@
-@import url(http://fonts.googleapis.com/css?family=Noto+Sans:400,700,400italic,700italic&subset=latin,latin-ext);
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap')
+
 
 *{
 	margin: 0;
 	padding: 0;
-	font-family: 'Noto Sans', sans-serif;
+	font-family: "Open Sans", sans-serif;
 }
 
 .navbar{
@@ -19,3 +20,4 @@
 	background-size: cover;
 	font-size: 2rem;
 }
+
