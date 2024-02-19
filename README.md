@@ -28,10 +28,11 @@ in actively participating in the development of their skills.
 
 ## Code organization
 
-+ **app.py** - Routes definition
++ **app.py** - Defining Flask app
 + **templates** - HTML templates
-+ **models** - machine learning models files
-+ **src** - handlers and oher functions
++ **static** - CSS files and images
++ **model** - machine learning model
++ **src** - contains routes defintions and their respective controllers
 
 ## Contact
 
