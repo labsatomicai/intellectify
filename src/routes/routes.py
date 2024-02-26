@@ -1,6 +1,7 @@
-from flask import Blueprint, render_template
+from flask import Blueprint, render_template, redirect, url_for
 from ..controllers.teachers_crontrollers import teacher_login_page, teacher_signup_page, teacher_panel_page, create_task, edit_task, tokenize_id_for_edition, tokenize_id_to_delete, delete_task, tokenize_id_for_feedback, get_feedback
 from ..controllers.students_controllers import students_signup_page, students_login_page , students_tasks_panel , tokenize_id_for_rating, rate_task
+from ..controllers.controllers_methods import log_out
 
 blueprint = Blueprint('main', __name__)
 
@@ -20,7 +21,18 @@ def return_success():
 def return_error():
     return render_template('error.html')
 
+@blueprint.route('/logout-student', methods=['GET'])
+def logout_student():
+    log_out('student_username')
+    return redirect('/')
+
+@blueprint.route('/logout-teacher', methods=['GET'])
+def logout_teacher():
+    log_out('logged_in_teacher')
+    return redirect('/')
+
 # Students routes
+
 @blueprint.route('/student-signup', methods=['GET', 'POST'])
 def return_signup():
     return students_signup_page()

@@ -79,3 +79,5 @@ def check_if_student_logged_in():
     if session.get('student_username'):
         return True
 
+def log_out(session_value):
+   session.pop(session_value, default=None)    

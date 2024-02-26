@@ -75,7 +75,9 @@
 				<a class="btn btn-outline-primary" role="button" aria-pressed="true" href="/create-task">Add new task</a>
 			</div>
 		</div>
-
+		<div class="container d-flex justify-content-center">
+			<a href="{{ url_for('main.logout_teacher') }}" class="text-dark text-decoration-none"><i data-feather="log-out"></i>Log out</a>
+		</div>
 		<script>
 			feather.replace();
 		</script>
