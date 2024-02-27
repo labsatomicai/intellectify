@@ -1,7 +1,6 @@
 import sqlite3
 from flask import render_template, request, redirect, url_for, session
-from werkzeug.security import generate_password_hash, check_password_hash
-from .controllers_methods import validate_username, get_rooms, generate_token, check_if_student_logged_in, degenerate_token, get_task_by_id, predict_task_result
+from .controllers_methods import validate_username, hash_pass, check_pass, get_rooms, generate_token, check_if_student_logged_in, degenerate_token, get_task_by_id, predict_task_result
 
 # Signup route
 
@@ -14,7 +13,7 @@ def students_signup_page():
         if not validate_username(username):
             return "Invalid nickname"
 
-        hashed_user_password = generate_password_hash(raw_user_password)
+        hashed_user_password = hash_pass(raw_user_password)
 
         conn = sqlite3.connect('databases/neurahub-data.db')
         cursor = conn.cursor()
@@ -49,7 +48,7 @@ def students_login_page():
             stored_password, room_id = cursor.fetchone()
             
             if stored_password:
-                if check_password_hash(stored_password, inserted_user_password):
+                if check_pass(stored_password, inserted_user_password):
                     session['room_id'] = room_id
                     session['student_username'] = inserted_username
                     return redirect('/assignments')
