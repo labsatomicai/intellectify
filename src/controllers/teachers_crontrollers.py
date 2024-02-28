@@ -61,7 +61,7 @@ def teacher_panel_page():
         conn = sqlite3.connect('databases/neurahub-data.db')
         cursor = conn.cursor()
         cursor.execute("""
-            SELECT tasks.id, tasks.task_name, tasks.due_date, tasks.room_id, rooms.room_name
+            SELECT tasks.id, tasks.task_name, strftime('%d/%m/%Y', tasks.due_date), tasks.room_id, rooms.room_name
             FROM tasks
             LEFT JOIN rooms ON tasks.room_id = rooms.id
             WHERE tasks.teacher_username = ?
