@@ -1,6 +1,7 @@
 import re, sqlite3, base64
 import numpy as np
 from flask import session, redirect
+from werkzeug.security import generate_password_hash, check_password_hash
 from keras.models import load_model
 
 def validate_username(username):
@@ -9,6 +10,24 @@ def validate_username(username):
 
     pattern = re.compile("^[a-zA-Z0-9_-]+$")
     return bool(pattern.match(username))
+
+def hash_pass(raw_pass):
+    hashed_pass = generate_password_hash(raw_pass)
+    return hashed_pass
+
+def check_pass(stored_user_password, form_sent_password):
+    password_match = check_password_hash(stored_user_password, form_sent_password)
+    if password_match:
+        return True
+
+def get_tasks():
+    conn = sqlite3.connect('databases/neurahub-data.db')
+    cursor = conn.cursor()
+    cursor.execute("SELECT * FROM tasks")
+    tasks = cursor.fetchall()
+    conn.close()
+
+    return tasks
 
 def get_rooms():
     conn = sqlite3.connect('databases/neurahub-data.db')
@@ -28,6 +47,14 @@ def get_study_areas():
 
     return avaliable_study_areas
 
+def  get_task_by_id(task_id):
+    conn = sqlite3.connect('databases/neurahub-data.db')
+    cursor = conn.cursor()
+    cursor.execute("SELECT * FROM tasks WHERE id = ?", (task_id,))
+    task = cursor.fetchone()
+    conn.close
+    return task;
+    
 def get_registered_teacher_area(username):
     conn = sqlite3.connect('databases/neurahub-data.db')
     cursor = conn.cursor()
@@ -38,13 +65,6 @@ def get_registered_teacher_area(username):
     conn.close()
     return area_name
 
-def  get_task_by_id(task_id):
-    conn = sqlite3.connect('databases/neurahub-data.db')
-    cursor = conn.cursor()
-    cursor.execute("SELECT * FROM tasks WHERE id = ?", (task_id,))
-    task = cursor.fetchone()
-    conn.close
-    return task;
 
 def generate_token(task_id):
     id_str = str(task_id).encode('utf-8')
@@ -69,13 +89,17 @@ def predict_task_result(grade):
     else:
         return possible_answers[0]
 
-
-
 def check_if_teacher_logged_in():
-    if session.get('logged_in_teacher'):
+    if session.get('teacher_username') and session.get('logged_in_teacher'):
         return True
 
 def check_if_student_logged_in():
     if session.get('student_username'):
         return True
 
+def check_if_admin_logged_in():
+    if session.get('logged_in_adm') and session.get('admin_username'):
+        return True
+
+def log_out(session_value):
+   session.pop(session_value, default=None)    

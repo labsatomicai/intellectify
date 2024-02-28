@@ -1,10 +1,7 @@
 import sqlite3
 from flask import render_template, request, redirect, url_for, session
 from werkzeug.security import generate_password_hash, check_password_hash
-from .controllers_methods import validate_username, get_rooms, get_registered_teacher_area, get_study_areas, generate_token, degenerate_token, check_if_teacher_logged_in, get_task_by_id
-
-
-# Teachers signup route
+from .controllers_methods import validate_username, hash_pass, check_pass, get_rooms, get_registered_teacher_area, get_study_areas, generate_token, degenerate_token, check_if_teacher_logged_in, get_task_by_id, check_if_admin_logged_in
 
 def teacher_signup_page():
     if request.method == 'POST':
@@ -13,9 +10,9 @@ def teacher_signup_page():
         area_id = request.form['area-id']
 
         if not validate_username(teacher_username):
-            return "Invalid nickname"
+            return redirect('/error')
 
-        hashed_teacher_password = generate_password_hash(raw_teacher_password)
+        hashed_teacher_password = hash_pass(raw_teacher_password)
 
         conn = sqlite3.connect('databases/neurahub-data.db')
         cursor = conn.cursor()
@@ -45,17 +42,16 @@ def teacher_login_page():
             conn = sqlite3.connect('databases/neurahub-data.db')
             cursor = conn.cursor()
             cursor.execute("SELECT password FROM teachers WHERE name = ?", (inserted_teacher_username,))
-            stored_password = cursor.fetchone()
+            stored_password = cursor.fetchone()[0]
 
             if stored_password:
-                if check_password_hash(stored_password[0], inserted_teacher_password):
+                if check_pass(stored_password, inserted_teacher_password):
                     session['logged_in_teacher'] = True
                     session['teacher_username'] = inserted_teacher_username
                     return redirect('/teacher-panel')
 
             return "Login failed"
         return render_template('teacher_login.html')
-
 
 def teacher_panel_page():
     if check_if_teacher_logged_in():
@@ -168,12 +164,15 @@ def delete_task(token):
         return redirect('/teacher-login')
 
 def tokenize_id_for_feedback(task_id):
-    if check_if_teacher_logged_in():
+    if check_if_teacher_logged_in() or check_if_admin_logged_in():
         token = generate_token(task_id)
         return redirect(url_for('main.return_task_feedback', token=token))
 
 def get_feedback(token):
-    if check_if_teacher_logged_in():
+    is_teacher = check_if_teacher_logged_in()
+    is_admin = check_if_admin_logged_in()
+
+    if is_teacher or is_admin:
         task_to_get_feedbacks = degenerate_token(token)
 
         conn = sqlite3.connect('databases/neurahub-data.db')
@@ -188,5 +187,5 @@ def get_feedback(token):
         
         conn.close()
 
-        return render_template('feedbacks.html', feedbacks=students_feedback, task_name=task_name)
+        return render_template('feedbacks.html', feedbacks=students_feedback, task_name=task_name, is_teacher=is_teacher, is_admin=is_admin)
     
