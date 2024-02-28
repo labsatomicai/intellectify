@@ -104,6 +104,7 @@ def create_task():
             cursor.execute("INSERT INTO tasks (task_name, due_date, area_id, room_id, teacher_username) VALUES (?, ?, ?, ?, ?)", (task_name, due_date, area_id, room_id, creator_username))
             conn.commit()
             conn.close()
+            return redirect('/teacher-panel')
 
 
         avaliable_study_areas = get_study_areas()
