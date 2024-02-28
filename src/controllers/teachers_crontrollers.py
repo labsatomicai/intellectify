@@ -164,7 +164,7 @@ def delete_task(token):
         return redirect('/teacher-login')
 
 def tokenize_id_for_feedback(task_id):
-    if check_if_teacher_logged_in():
+    if check_if_teacher_logged_in() or check_if_admin_logged_in():
         token = generate_token(task_id)
         return redirect(url_for('main.return_task_feedback', token=token))
 
