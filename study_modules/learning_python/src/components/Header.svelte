@@ -6,12 +6,15 @@
         <img class="logo" width="180px" src="/img/neurahub_logo_no_bg.png" alt="">
     </div>
     <div class="game-title">
-       <h1>Learning about</h1> 
-       <img width="200px" src="/img/py_logo.png" alt="">
+        <h1>Mathematicas in everyday life: An interactive exploration</h1>
     </div>
 </header>
 
 <style>
+    header{
+        height: 75vh;
+    }
+
     .logo-container{
         padding-left: 10rem;
     }
@@ -27,5 +30,4 @@
         justify-content: center;
         align-items: center;
     }
-
 </style>
