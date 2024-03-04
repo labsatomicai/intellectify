@@ -113,5 +113,3 @@ def rate_task(token):
                 conn.close()
 
         return render_template('rate_task.html', task=task_to_review)
-
-

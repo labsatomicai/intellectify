@@ -189,4 +189,3 @@ def get_feedback(token):
         conn.close()
 
         return render_template('feedbacks.html', feedbacks=students_feedback, task_name=task_name, is_teacher=is_teacher, is_admin=is_admin)
-    
