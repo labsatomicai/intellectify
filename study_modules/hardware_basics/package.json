@@ -19,6 +19,7 @@
     "svelte": "^3.55.0"
   },
   "dependencies": {
+    "feather-icons": "^4.29.1",
     "sirv-cli": "^2.0.0"
   }
 }

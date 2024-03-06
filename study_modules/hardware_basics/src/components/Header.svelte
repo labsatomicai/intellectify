@@ -3,16 +3,19 @@
 
 <header>
     <div class="logo-container">
-        <img class="logo" width="180px" src="/img/neurahub_logo_no_bg.png" alt="">
+        <img width="130" src="/img/neurahub_logo_no_bg.png" alt="">
     </div>
     <div class="game-title">
-        <h1>Mathematics in Everyday Life: An Interactive Exploration</h1>
+        <h1>Hardware basics</h1>
+        <div class="powered"> 
+            <p>Powered by perceptrawave</p>
+            <img class="logo" width="100" src="/img/perceptrawave.png" alt="">
+        </div>
     </div>
 </header>
 
 <style>
     header {
-        padding: 2rem;
         margin: 0 auto 50px;
     }
 
@@ -22,13 +25,14 @@
         text-align: center;
     }
 
-    .logo-container {
-        text-align: center;
+    .logo-container > img{
+        padding: 1.5rem;
     }
-
-    .logo {
-        max-width: 100%;
-        height: auto;
+     
+    .powered{
+        display: flex;
+        align-items: center;
+        justify-content: center;
     }
 
     @media only screen and (max-width: 600px) {
