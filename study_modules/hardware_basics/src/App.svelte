@@ -1,8 +1,10 @@
 <script>
+	
 
 	import Header from "./components/Header.svelte";
 	import Button from "./shared/Button.svelte";
 	import Content from "./components/Content.svelte";
+	
 
 	let show_content = false;
 
@@ -11,9 +13,10 @@
 	}
 	
 </script>
-<Header/>
-<main>
+<Header>
 	<Button button_text="Start" on:click|once={handle_content}/>
+</Header>
+<main>
 </main>
 {#if show_content === true}
 	<Content/>

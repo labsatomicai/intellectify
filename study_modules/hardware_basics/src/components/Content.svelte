@@ -1,9 +1,10 @@
 <script>
   import Card from "../shared/Card.svelte";
   import * as feather from "feather-icons";
+  import { fly }from 'svelte/transition';
 </script>
 
-<div class="content">
+<div class="content" in:fly>
   <div class="info-cards">
     <Card card_title={"Power supply"}>
       <p>Responsible for providing electrical power to the computer.</p>

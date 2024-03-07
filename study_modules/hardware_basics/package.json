@@ -20,6 +20,7 @@
   },
   "dependencies": {
     "feather-icons": "^4.29.1",
-    "sirv-cli": "^2.0.0"
+    "sirv-cli": "^2.0.0",
+    "svelte-intersection-observer": "^1.0.0"
   }
 }
