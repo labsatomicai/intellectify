@@ -29,7 +29,7 @@
         icon = 'hard-drive';
         break;
       default:
-        icon = 'help-circle'; // Ícone padrão para títulos desconhecidos
+        icon = 'help-circle';
     }
   </script>
   
@@ -51,12 +51,14 @@
       padding: 20px;
       margin: 1rem;
       width: 20em;
-      border-radius: 6px;
-      box-shadow: 0px 2px 4px rgba(0, 0, 0, .3);
+      border-radius: 10px;
+      box-shadow: 0px 2px 4px rgba(0, 0, 0, .6);
     }
   
     .icon {
-      margin-bottom: 10px; /* Adiciona espaço entre o ícone e o título */
+      margin: 10px auto; 
+      font-size: 2rem;
     }
+
   </style>
   
