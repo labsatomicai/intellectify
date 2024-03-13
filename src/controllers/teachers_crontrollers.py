@@ -61,7 +61,7 @@ def teacher_panel_page():
         conn = sqlite3.connect('databases/neurahub-data.db')
         cursor = conn.cursor()
         cursor.execute("""
-            SELECT tasks.id, tasks.task_name, tasks.due_date, tasks.room_id, rooms.room_name
+            SELECT tasks.id, tasks.task_name, strftime('%d/%m/%Y', tasks.due_date), tasks.room_id, rooms.room_name
             FROM tasks
             LEFT JOIN rooms ON tasks.room_id = rooms.id
             WHERE tasks.teacher_username = ?
@@ -104,6 +104,7 @@ def create_task():
             cursor.execute("INSERT INTO tasks (task_name, due_date, area_id, room_id, teacher_username) VALUES (?, ?, ?, ?, ?)", (task_name, due_date, area_id, room_id, creator_username))
             conn.commit()
             conn.close()
+            return redirect('/teacher-panel')
 
 
         avaliable_study_areas = get_study_areas()
@@ -188,4 +189,3 @@ def get_feedback(token):
         conn.close()
 
         return render_template('feedbacks.html', feedbacks=students_feedback, task_name=task_name, is_teacher=is_teacher, is_admin=is_admin)
-    

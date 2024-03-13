@@ -33,9 +33,9 @@
 				<tbody>
 					{% for task in tasks %}
 					<tr>
-						<td><strong>{{ task[1] }}</strong></td>
+						<td>{{ task[1] }}</td>
 						<td><strong>{{ task[2] }}</strong></td>
-						<td><strong>{{ task[4] }}</strong></td>
+						<td>{{ task[4] }}</td>
 						<td>
 							<a href="{{ url_for('main.return_processed_id_to_rate', task_id=task[0]) }}" class="text-dark"><i data-feather="star"></i></a>
 						</td>

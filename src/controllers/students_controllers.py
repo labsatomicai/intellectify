@@ -64,14 +64,13 @@ def students_tasks_panel():
 
         if room_id is not None:
             cursor.execute("""
-                           SELECT tasks.id, tasks.task_name, tasks.due_date, tasks.room_id, teacher_areas.area_name
-                           FROM tasks
-                           JOIN teacher_areas ON tasks.area_id = teacher_areas.id
-                           LEFT JOIN feedbacks ON tasks.id = feedbacks.task_id AND feedbacks.student_username = ?
-                           WHERE tasks.room_id = ? AND feedbacks.id IS NULL
-                           """, (username, room_id))
-
-            pending_tasks = cursor.fetchall()
+                SELECT tasks.id, tasks.task_name, strftime('%d/%m/%Y', tasks.due_date) as formatted_due_date, tasks.room_id, teacher_areas.area_name
+                FROM tasks
+                JOIN teacher_areas ON tasks.area_id = teacher_areas.id
+                LEFT JOIN feedbacks ON tasks.id = feedbacks.task_id AND feedbacks.student_username = ?
+                WHERE (tasks.due_date >= CURRENT_DATE OR feedbacks.id IS NULL) AND tasks.room_id = ? AND tasks.due_date >= CURRENT_DATE
+            """, (username, room_id))
+        pending_tasks = cursor.fetchall()
         conn.close()
         
         return render_template('student_panel.html', tasks=pending_tasks)
@@ -114,5 +113,3 @@ def rate_task(token):
                 conn.close()
 
         return render_template('rate_task.html', task=task_to_review)
-
-

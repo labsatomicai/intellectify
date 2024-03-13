@@ -102,4 +102,4 @@ def check_if_admin_logged_in():
         return True
 
 def log_out(session_value):
-   session.pop(session_value, default=None)    
+   session.pop(session_value, default=None)

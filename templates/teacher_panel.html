@@ -33,7 +33,7 @@
 							<th scope="col">Area</th>
 							<th scope="col">Room</th>
 							<th scope="col">Teacher</th>
-							<th scope="col">Action</th>
+							<th scope="col">Actions</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -48,7 +48,7 @@
 								<div class="d-flex justify-content-center"H>
 									<div class="px-1">
 										<a href="{{ url_for('main.return_processed_id_to_feedback', task_id=task['task_id']) }}"
-											class="text-dark"><i data-feather="check"></i></a>
+											class="text-dark"><i data-feather="eye"></i></a>
 									</div>
 									<div class="px-1">
 										<a href="{{ url_for('main.return_processed_id_to_edit', task_id=task['task_id']) }}"
