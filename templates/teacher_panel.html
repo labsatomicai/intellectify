@@ -47,15 +47,15 @@
 							<td>
 								<div class="d-flex justify-content-center"H>
 									<div class="px-1">
-										<a href="{{ url_for('main.return_processed_id_to_feedback', task_id=task['task_id']) }}"
+										<a href="{{ url_for('main.teachers.return_processed_id_to_feedback', task_id=task['task_id']) }}"
 											class="text-dark"><i data-feather="eye"></i></a>
 									</div>
 									<div class="px-1">
-										<a href="{{ url_for('main.return_processed_id_to_edit', task_id=task['task_id']) }}"
+										<a href="{{ url_for('main.teachers.return_processed_id_to_edit', task_id=task['task_id']) }}"
 											class="text-dark"><i data-feather="edit"></i></a>
 									</div>
 									<div class="px-1">
-										<a href="{{ url_for('main.return_processed_id_to_delete', task_id=task['task_id']) }}"
+										<a href="{{ url_for('main.teachers.return_processed_id_to_delete', task_id=task['task_id']) }}"
 											class="text-dark"><i data-feather="trash"></i></a>
 									</div>
 								</div>

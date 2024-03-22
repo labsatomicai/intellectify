@@ -48,6 +48,7 @@ def teacher_login_page():
                 if check_pass(stored_password, inserted_teacher_password):
                     session['logged_in_teacher'] = True
                     session['teacher_username'] = inserted_teacher_username
+                    print(inserted_teacher_username)
                     return redirect('/teacher-panel')
 
             return "Login failed"
@@ -144,6 +145,7 @@ def edit_task(token):
 
 
 def tokenize_id_to_delete(task_id):
+    token = 0
     if check_if_teacher_logged_in():
         token = generate_token(task_id)
         return redirect(url_for('main.return_task_deletion', token=token))
@@ -167,9 +169,12 @@ def delete_task(token):
 def tokenize_id_for_feedback(task_id):
     if check_if_teacher_logged_in() or check_if_admin_logged_in():
         token = generate_token(task_id)
-        return redirect(url_for('main.return_task_feedback', token=token))
+        return redirect(url_for('main.teachers.return_task_feedback', token=token))
+    else:
+        return redirect('/teacher-login')
 
 def get_feedback(token):
+    print(token)
     is_teacher = check_if_teacher_logged_in()
     is_admin = check_if_admin_logged_in()
 
