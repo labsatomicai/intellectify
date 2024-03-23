@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-	<title>neurahub - create task</title>
+	<title>neurahub - create topic</title>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='style/style.css') }}">
@@ -20,32 +20,18 @@
 	    <div class="d-flex flex-column mx-auto justify-content-center border rounded wd-50 p-5 shadow-lg">
 		<form method="POST" action="" class="needs-validation" novalidate>
 		    <div class="row">
+			<h2>Creating a new topic</h2>
 			<div class="form-group p-2 h-100">
-			    <label for="task">Task name</label>
-			    <input type="text" class="form-control" id="task" name="task" placeholder="Create a task name" required>
-			    <div class="invalid-feedback">Please choose a task name</div>
+			    <label for="topic-name">Topic title</label>
+			    <input type="text" class="form-control" id="topic-name" name="topic-name" placeholder="Create a topic name" required>
+			    <div class="invalid-feedback">Please choose a topic title</div
 			</div>
 			<br>
-			<div class="form-group p-2">
-			    <label for="due_date">Due date</label>
-			    <input type="date" class="form-control" id="due_date" name="due_date" placeholder="01/01/1970" required>
-			    <div class="invalid-feedback">Please insert a deadline</div>
+			<div class="form-group p-2 h-100">
+			    <label for="topic-body">Topic content</label>
+			    <textarea class="form-control" id="topic-body" name="topic-body" placeholder="What do you want to discuss about?" style="resize: none;" rows="5" cols="100" required ></textarea>
+			    <div class="invalid-feedback">Please write about your topic
 			</div>
-			<div class="form-group p-2">
-			    <label>Room</label>	
-			    <select id="room" name="room-id" class="form-select">
-				{% for room in rooms %}
-				<option value="{{ room[0] }}">{{ room[1] }}</option>
-				{% endfor %}
-			    </select>
-			</div>	
-			<div class="form-group p-2">
-			    <label for="room">Study area</label>
-			    <select id="study-area" name="area-id" class="form-select">
-				{% for area in areas %}
-				<option value="{{ area[0] }}">{{ area[1] }}</option>
-				{% endfor %}
-			    </select>
 			</div>
 		    </div>
 		    <button type="submit" class="btn btn-primary mx-2 my-4">Submit</button>
