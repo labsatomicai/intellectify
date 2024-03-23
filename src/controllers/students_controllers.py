@@ -80,7 +80,7 @@ def students_tasks_panel():
 def tokenize_id_for_rating(task_id):
     if check_if_student_logged_in():
         token = generate_token(task_id)
-        return redirect(url_for('main.return_task_rating', token=token))
+        return redirect(url_for('main.students.return_task_rating', token=token))
     else:
         return redirect('/student-login')
 

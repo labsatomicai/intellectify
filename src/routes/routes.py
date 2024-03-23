@@ -2,6 +2,7 @@ from flask import Blueprint, render_template, redirect, url_for
 from .teachers_routes import teachers_blueprint
 from .students_routes import students_blueprint
 from .admin_routes import admins_blueprint
+from .forum_routes import forum_blueprint
 from ..controllers.controllers_methods import log_out
 
 blueprint = Blueprint('main', __name__)
@@ -37,6 +38,7 @@ def logout_teacher():
 blueprint.register_blueprint(teachers_blueprint)
 blueprint.register_blueprint(students_blueprint)
 blueprint.register_blueprint(admins_blueprint)
+blueprint.register_blueprint(forum_blueprint)
 
 if __name__ == '__main__':
     blueprint.run(debug=True)

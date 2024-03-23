@@ -116,7 +116,7 @@ def create_task():
 def tokenize_id_for_edition(task_id):
     if check_if_teacher_logged_in():
         token = generate_token(task_id)
-        return redirect(url_for('main.return_task_edition', token=token))
+        return redirect(url_for('main.teachers.return_task_edition', token=token))
     else:
         return redirect('/teacher-login')
 
@@ -148,7 +148,7 @@ def tokenize_id_to_delete(task_id):
     token = 0
     if check_if_teacher_logged_in():
         token = generate_token(task_id)
-        return redirect(url_for('main.return_task_deletion', token=token))
+        return redirect(url_for('main.teachers.return_task_deletion', token=token))
 
 def delete_task(token):
     if check_if_teacher_logged_in():
