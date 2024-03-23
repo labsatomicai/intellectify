@@ -61,6 +61,7 @@ def teacher_panel_page():
 
         conn = sqlite3.connect('databases/neurahub-data.db')
         cursor = conn.cursor()
+        #This query shows to the teacher which tasks he has created till the moment, in the front-end it's possible to see feedbacks, edit the task and also delete it
         cursor.execute("""
             SELECT tasks.id, tasks.task_name, strftime('%d/%m/%Y', tasks.due_date), tasks.room_id, rooms.room_name
             FROM tasks
@@ -129,7 +130,7 @@ def edit_task(token):
             if request.method == 'POST':
                 new_task_name = request.form['new-task-name']
                 new_due_date = request.form['new-due-date']
-                
+                #Checking if the name or due date are equal to the values already stored
                 if new_task_name != original_task[1] or new_due_date != original_task[2]:
                     conn = sqlite3.connect('databases/neurahub-data.db')
                     cursor = conn.cursor()

@@ -63,6 +63,7 @@ def students_tasks_panel():
         username = session.get('student_username')
 
         if room_id is not None:
+            #This query shows to the student which tasks must be rated, it already filters by due date and if the task is already rated
             cursor.execute("""
                 SELECT tasks.id, tasks.task_name, strftime('%d/%m/%Y', tasks.due_date) as formatted_due_date, tasks.room_id, teacher_areas.area_name
                 FROM tasks

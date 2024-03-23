@@ -49,6 +49,7 @@ def admin_panel_page():
     if check_if_admin_logged_in():
         conn = sqlite3.connect('databases/neurahub-data.db')
         cursor = conn.cursor()
+        #The difference to the teachers is, the admin can see the student name in the feedback card
         cursor.execute("""
             SELECT tasks.id, tasks.task_name, tasks.due_date, rooms.room_name, teacher_areas.area_name, tasks.teacher_username
             FROM tasks
