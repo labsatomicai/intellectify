@@ -37,9 +37,12 @@
 		<div class="col">
 		    <div class="card h-100 bordered rounded">
 			<div class="card-body overflow-auto shadow px-3 py-3">
-			   <strong><p class="card-text">{{ post[2] }}</p></strong>
+			    <strong><p class="card-text">{{ post[2] }}</p></strong>
 			    <p style="font-size: 24px; font-weight:bold;" class="card-text">{{ post[0] }}</p>
 			    <p style="text-align: justify;" class="card-text">{{ post[1] }}</p>
+			    {% if post[3] %}
+			    <img class="mx-auto d-block w-50" src="data:image;base64,{{ post[3] }}" onclick="open_image_in_new_tab('{{ post[3] }}')">
+			    {% endif %}
 			</div>
 		    </div>
 		</div>
@@ -48,7 +51,7 @@
 	    {% else %}
 	    <div class="d-flex flex-column justify-content-center align-items-center">
 		<p class="py-2"><i data-feather="award" style="width: 36px; height: 36px;"></i></p>
-		<p class="h6">No tasks for today! Have some rest</p>
+		<p class="h6">No posts made yet, why don't talk about something?</p>
 	    </div>
 	    {% endif %}
 	</div>
@@ -56,8 +59,12 @@
 		integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
 		crossorigin="anonymous"></script>
 	<script>
+	    function open_image_in_new_tab(image_data){
+		var new_tab = window.open();
+		new_tab.document.write('<html><head><title>Post image</title></head><body><img src="data:image;base64,' + image_data + '"></body></html>');
+	    }
+	    
 	    feather.replace();
 	</script>
     </body>
-
 </html>

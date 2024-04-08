@@ -1,3 +1,4 @@
+#This file is used by the other controllers files, something like generic use functions, runs in one or more files
 import re, sqlite3, base64
 import numpy as np
 from flask import session, redirect
@@ -82,7 +83,8 @@ def predict_task_result(grade):
 
     model = load_model('model/rating_model.h5')
     prediction = model.predict(np.array([[grade]]))
-    
+
+    # The model returns a sigmoid value so, it's acceptable to use something near of 95%
     if prediction >= 0.95:
         return possible_answers[1]
     else:

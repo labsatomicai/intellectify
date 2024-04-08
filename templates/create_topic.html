@@ -18,7 +18,7 @@
 	</nav>
 	<div class="container py-5 my-5 h-100">
 	    <div class="d-flex flex-column mx-auto justify-content-center border rounded wd-50 p-5 shadow-lg">
-		<form method="POST" action="" class="needs-validation" novalidate>
+		<form method="POST" action="" class="needs-validation" enctype="multipart/form-data">
 		    <div class="row">
 			<h2>Creating a new topic</h2>
 			<div class="form-group p-2 h-100">
@@ -30,9 +30,11 @@
 			<div class="form-group p-2 h-100">
 			    <label for="topic-body">Topic content</label>
 			    <textarea class="form-control" id="topic-body" name="topic-body" placeholder="What do you want to discuss about?" style="resize: none;" rows="5" cols="100" required ></textarea>
-			    <div class="invalid-feedback">Please write about your topic
+			    <div class="invalid-feedback">Please write more about your topic</div>
 			</div>
-			</div>
+			<div class="form-group p-2 h-100">
+			    <label for="topic-image">Topic image</label>
+			    <input type="file" class="form-control" id="topic-image" name="topic-image" accept="image/">
 		    </div>
 		    <button type="submit" class="btn btn-primary mx-2 my-4">Submit</button>
 		</form>
