@@ -85,7 +85,8 @@ def predict_task_result(grade):
     prediction = model.predict(np.array([[grade]]))
 
     # The model returns a sigmoid value so, it's acceptable to use something near of 95%
-    if prediction >= 0.95:
+    binary_prediction = (prediction > 0.95).astype(int)
+    if binary_prediction == 1:
         return possible_answers[1]
     else:
         return possible_answers[0]
