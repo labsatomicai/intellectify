@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-	<title>neurahub - teacher's panel</title>
+	<title>neurahub - admin's panel</title>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style/style.css') }}">
@@ -20,7 +20,7 @@
 		    <img src="{{ url_for('static', filename='img/neurahub_logo_no_bg.png') }}" alt="Logo" height="128" class="d-inline-block align-items-center mx-auto px-5">
 		</a>
 	    </div>
-	    <h2>Teacher's launched tasks</h2>
+	    <h2>Launched tasks</h2>
 	    <hr>
 
 	    {% if current_tasks %}
@@ -62,10 +62,6 @@
 		<p class="fs-3">No tasks to see today</p>
 	    </div>
 	    {% endif %}
-
-	    <div class="d-flex justify-content-end">
-		<a class="btn btn-outline-primary" role="button" aria-pressed="true" href="/create-task">Add new task</a>
-	    </div>
 	</div>
 	<div class="container d-flex justify-content-center">
 	    <a href="{{ url_for('main.logout_teacher') }}" class="text-dark text-decoration-none"><i data-feather="log-out"></i>Log out</a>

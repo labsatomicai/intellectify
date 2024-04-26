@@ -51,7 +51,7 @@ def admin_panel_page():
         cursor = conn.cursor()
         #The difference to the teachers is, the admin can see the student name in the feedback card
         cursor.execute("""
-            SELECT tasks.id, tasks.task_name, tasks.due_date, rooms.room_name, teacher_areas.area_name, tasks.teacher_username
+            SELECT tasks.id, tasks.task_name, strftime('%d/%m/%Y',tasks.due_date) as formatted_due_date, rooms.room_name, teacher_areas.area_name, tasks.teacher_username
             FROM tasks
             LEFT JOIN rooms ON tasks.room_id = rooms.id
             LEFT JOIN teacher_areas ON tasks.area_id = teacher_areas.id
