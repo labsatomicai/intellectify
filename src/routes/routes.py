@@ -35,6 +35,11 @@ def logout_teacher():
     log_out('logged_in_teacher')
     return redirect('/')
 
+# Finder is a tool developed to search content in the web, summarizing it to the students
+@blueprint.route('/finder', methods=['GET', 'POST'])
+def finder_page():
+    return render_template('finder.html')
+
 blueprint.register_blueprint(teachers_blueprint)
 blueprint.register_blueprint(students_blueprint)
 blueprint.register_blueprint(admins_blueprint)
