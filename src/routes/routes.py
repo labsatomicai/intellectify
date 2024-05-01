@@ -3,6 +3,7 @@ from .teachers_routes import teachers_blueprint
 from .students_routes import students_blueprint
 from .admin_routes import admins_blueprint
 from .forum_routes import forum_blueprint
+from .finder_routes import finder_blueprint
 from ..controllers.controllers_methods import log_out
 
 blueprint = Blueprint('main', __name__)
@@ -35,10 +36,12 @@ def logout_teacher():
     log_out('logged_in_teacher')
     return redirect('/')
 
+
 blueprint.register_blueprint(teachers_blueprint)
 blueprint.register_blueprint(students_blueprint)
 blueprint.register_blueprint(admins_blueprint)
 blueprint.register_blueprint(forum_blueprint)
+blueprint.register_blueprint(finder_blueprint)
 
 if __name__ == '__main__':
     blueprint.run(debug=True)

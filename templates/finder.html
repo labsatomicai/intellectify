@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+	<title>neurahub - create topic</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='style/style.css') }}">
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    </head>
+    <body>
+	<nav class="navbar navbar-expand-lg bg-body-tertiary">
+	    <div class="container-fluid">
+		<a class="navbar-brand" href="#">
+		    <img src="{{ url_for('static', filename='img/neurahub_logo_no_bg.png') }}" alt="Logo" height="100" class="d-inline-block align-items-center mx-auto px-5">
+		</a>
+	    </div>
+	</nav>
+	<div class="container py-5 my-5 h-100">
+	    <div class="d-flex flex-column mx-auto justify-content-center border rounded wd-50 p-5 shadow-lg">
+		<form method="POST" action="" class="needs-validation" enctype="multipart/form-data">
+		    <div class="row">
+			<h2>welcome to <b>finder!</b></h2>
+			<div class="form-group p-2 h-100">
+			    <label for="subject">What do you want to know about?</label>
+			    <input type="text" class="form-control" id="subject" name="subject" placeholder="Insert topic here" required>
+			    <div class="invalid-feedback">Please choose a topic title</div
+			</div>
+			<div class="form-group p-2 h-100 d-grid grap-2 md-block">
+		    <button type="submit" class="btn btn-primary btn-large mx-2 my-4">Submit</button>
+		</form>
+		</div>
+		<div class=" d-flex justify-content-center mt-3">
+			<div class="justify-content-center">
+                {% if answer %}
+                    <p class="text-justify">{{ answer }}</p>
+                {% else %}
+                    <p class="text-justify">Results appear here</p>
+                {% endif %}
+            </div>
+        </div>
+		<div class="text-center">
+			<p><b>For better results use websites like: <a href="https://scholar.google.com.br">Schoolar Google</a><b></p>
+		</div>
+	</div>
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+    </body>
+</html>
