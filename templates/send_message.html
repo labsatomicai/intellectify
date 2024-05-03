@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-		<title>neurahub - create topic</title>
+		<title>neurahub - send message</title>
 		<meta charset="UTF-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='style/style.css') }}">
@@ -20,22 +20,18 @@
 	    <div class="d-flex flex-column mx-auto justify-content-center border rounded wd-50 p-5 shadow-lg">
 		<form method="POST" action="" class="needs-validation" enctype="multipart/form-data">
 		    <div class="row">
-			<h2>Creating a new topic</h2>
+			<h2>Send a message</h2>
 			<div class="form-group p-2 h-100">
-			    <label for="topic-name">Topic title</label>
-			    <input type="text" class="form-control" id="topic-name" name="topic-name" placeholder="Create a topic name" required>
+			    <label for="receiver-username">Username</label>
+			    <input type="text" class="form-control" id="receiver-username" name="receiver-username" placeholder="Your friend's username" required>
 			    <div class="invalid-feedback">Please choose a topic title</div>
 			</div>
 			<br>
 			<div class="form-group p-2 h-100">
-			    <label for="topic-body">Topic content</label>
-			    <textarea class="form-control" id="topic-body" name="topic-body" placeholder="What do you want to discuss about?" style="resize: none;" rows="5" cols="100" required ></textarea>
+			    <label for="message">Message content</label>
+			    <textarea class="form-control" id="message" name="message" placeholder="Content goes here" style="resize: none;" rows="5" cols="100" required ></textarea>
 			    <div class="invalid-feedback">Please write more about your topic</div>
 			</div>
-			<div class="form-group p-2 h-100">
-			    <label for="topic-image">Topic image</label>
-			    <input type="file" class="form-control" id="topic-image" name="topic-image" accept="image/">
-		    </div>
 		    <button type="submit" class="btn btn-primary mx-2 my-4">Submit</button>
 		</form>
 	    </div>

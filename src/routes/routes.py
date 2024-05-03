@@ -4,6 +4,7 @@ from .students_routes import students_blueprint
 from .admin_routes import admins_blueprint
 from .forum_routes import forum_blueprint
 from .finder_routes import finder_blueprint
+from .chat_routes import chat_blueprint
 from ..controllers.controllers_methods import log_out
 
 blueprint = Blueprint('main', __name__)
@@ -42,6 +43,7 @@ blueprint.register_blueprint(students_blueprint)
 blueprint.register_blueprint(admins_blueprint)
 blueprint.register_blueprint(forum_blueprint)
 blueprint.register_blueprint(finder_blueprint)
+blueprint.register_blueprint(chat_blueprint)
 
 if __name__ == '__main__':
     blueprint.run(debug=True)
